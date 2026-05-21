@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log Earnings</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f3eeff;
+    --purple-light: #d8c8f8;
+    --purple-mid: #b49de0;
+    --purple-deep: #7c5cbf;
+    --purple-dark: #3e2a6e;
+    --muted: #9b82c4;
+    --text: #2e1f52;
+    --white-card: rgba(255,255,255,0.82);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* subtle bg gradient */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 20% 80%, rgba(196,168,240,0.3) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(216,200,248,0.25) 0%, transparent 65%);
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .page-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    color: var(--purple-dark);
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .page-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  .card {
+    background: var(--white-card);
+    border: 1.5px solid rgba(196,168,240,0.4);
+    border-radius: 18px;
+    padding: 24px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(124,92,191,0.09);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .field:last-of-type { margin-bottom: 0; }
+
+  label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid rgba(196,168,240,0.4);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.7);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus {
+    border-color: var(--purple-mid);
+    box-shadow: 0 0 0 3px rgba(180,157,224,0.18);
+  }
+
+  .btn {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--purple-deep), #a07ad8);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.03em;
+  }
+
+  .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--purple-dark);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(62,42,110,0.25);
+    transition: transform 0.3s ease;
+    z-index: 100;
+    white-space: nowrap;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: #c0446a; }
+
+  /* Log entries */
+  .log-card { display: flex; flex-direction: column; gap: 6px; }
+
+  .log-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 12px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 9px;
+    border: 1px solid rgba(196,168,240,0.2);
+  }
+
+  .entry-date { font-size: 0.78rem; color: var(--muted); }
+  .entry-amount { font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--purple-deep); }
+
+  .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(192,68,106,0.5);
+    font-size: 1rem;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .delete-btn:hover { color: #c0446a; background: rgba(192,68,106,0.08); }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 14px;
+    background: linear-gradient(135deg, var(--purple-deep), #a07ad8);
+    border-radius: 11px;
+    margin-top: 4px;
+  }
+  .total-row span:first-child { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.8); font-weight: 500; }
+  .total-row span:last-child { font-family: 'Instrument Serif', serif; font-size: 1.2rem; color: white; }
+
+  .empty-state { font-size: 0.85rem; color: var(--muted); text-align: center; padding: 16px 0; font-style: italic; }
+
+  .back-link {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--purple-deep); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1 class="page-title">Log Earnings 🐷</h1>
+  <p class="page-sub">every session gets you closer</p>
+
+  <!-- ADD ENTRY FORM -->
+  <div class="card">
+    <div class="field">
+      <label for="date-input">Date</label>
+      <input type="date" id="date-input"/>
+    </div>
+    <div class="field">
+      <label for="amount-input">Amount (£)</label>
+      <input type="number" id="amount-input" placeholder="e.g. 45.50" step="0.01" min="0"/>
+    </div>
+    <button class="btn" id="submit-btn">Add Entry</button>
+  </div>
+
+  <!-- EXISTING ENTRIES -->
+  <div class="card log-card" id="log-card">
+    <div class="log-label">All entries</div>
+    <div id="entries-list"><div class="empty-state">Loading...</div></div>
+    <div class="total-row" id="total-row" style="display:none;">
+      <span>Total saved</span>
+      <span id="total-amount">£0</span>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">← view main page</a>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const SUPABASE_URL = "https://whnaiyoixllvoiohxpyb.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndobmFpeW9peGxsdm9pb2h4cHliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyOTk2MDAsImV4cCI6MjA5NDg3NTYwMH0.32WghCgb8w9_aXTt0CPSUwziN79THzNXprSgYjvzcc0";
+
+  const headers = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": `Bearer ${SUPABASE_KEY}`,
+    "Content-Type": "application/json"
+  };
+
+  // Set today's date as default
+  document.getElementById("date-input").value = new Date().toISOString().split("T")[0];
+
+  // Toast helper
+  function showToast(msg, isError = false) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.className = "toast" + (isError ? " error" : "");
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 3000);
+  }
+
+  // Load all entries
+  async function loadEntries() {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/entries?select=*&order=date.desc`, { headers });
+    const data = await res.json();
+    const list = document.getElementById("entries-list");
+    list.innerHTML = "";
+
+    if (!data.length) {
+      list.innerHTML = '<div class="empty-state">No entries yet — add your first one!</div>';
+      document.getElementById("total-row").style.display = "none";
+      return;
+    }
+
+    let total = 0;
+    data.forEach(e => {
+      total += Number(e.amount);
+      const dateStr = new Date(e.date).toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" });
+      const row = document.createElement("div");
+      row.className = "entry-row";
+      row.innerHTML = `
+        <span class="entry-date">${dateStr}</span>
+        <span class="entry-amount">£${Number(e.amount).toFixed(2)}</span>
+        <button class="delete-btn" data-id="${e.id}" title="Delete">✕</button>
+      `;
+      list.appendChild(row);
+    });
+
+    document.getElementById("total-row").style.display = "flex";
+    document.getElementById("total-amount").textContent = `£${total.toFixed(2)}`;
+
+    // Delete handlers
+    list.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const id = btn.dataset.id;
+        if (!confirm("Delete this entry?")) return;
+        await fetch(`${SUPABASE_URL}/rest/v1/entries?id=eq.${id}`, { method: "DELETE", headers });
+        showToast("Entry deleted");
+        loadEntries();
+      });
+    });
+  }
+
+  // Submit new entry
+  document.getElementById("submit-btn").addEventListener("click", async () => {
+    const date   = document.getElementById("date-input").value;
+    const amount = document.getElementById("amount-input").value;
+
+    if (!date || !amount || Number(amount) <= 0) {
+      showToast("Please enter a valid date and amount", true);
+      return;
+    }
+
+    const btn = document.getElementById("submit-btn");
+    btn.disabled = true;
+    btn.textContent = "Saving...";
+
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/entries`, {
+      method: "POST",
+      headers: { ...headers, "Prefer": "return=minimal" },
+      body: JSON.stringify({ date, amount: Number(amount) })
+    });
+
+    if (res.ok) {
+      showToast("Entry added! 🐷");
+      document.getElementById("amount-input").value = "";
+      document.getElementById("date-input").value = new Date().toISOString().split("T")[0];
+      loadEntries();
+    } else {
+      showToast("Something went wrong — try again", true);
+    }
+
+    btn.disabled = false;
+    btn.textContent = "Add Entry";
+  });
+
+  // Allow pressing Enter to submit
+  document.getElementById("amount-input").addEventListener("keydown", e => {
+    if (e.key === "Enter") document.getElementById("submit-btn").click();
+  });
+
+  loadEntries();
+</script>
+</body>
+</html>
