@@ -72,11 +72,11 @@
   header h1 .arrow { color: var(--purple-deep); font-style: italic; }
 
   .countdown {
-    margin-top: 7px; font-size: 0.76rem;
+    margin-top: 12px; font-size: 1rem;
     color: var(--muted); letter-spacing: 0.09em;
     text-transform: uppercase; font-weight: 500;
   }
-  .countdown strong { color: var(--purple-deep); font-size: 0.95rem; }
+  .countdown strong { color: var(--purple-deep); font-size: 2.8rem; display: block; line-height: 1; font-family: "Instrument Serif", serif; letter-spacing: -0.02em; }
 
   /* ── PANEL CARD ── */
   .panel-card {
@@ -126,8 +126,15 @@
   }
   .log-total span:last-child { font-family: 'Instrument Serif', serif; font-size: 1.25rem; color: white; }
 
+  /* ── LEFT PANEL ── */
+  .left-panel {
+    display: flex; flex-direction: column; gap: 10px;
+    padding-right: 20px; padding-top: 8px; align-self: start;
+    grid-column: 1; grid-row: 2;
+  }
+
   /* ── CENTER PIGGY ── */
-  .piggy-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; margin-top: -6vh; }
+  .piggy-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; margin-top: -6vh; grid-column: 2; grid-row: 2; }
 
   .piggy-container {
     width: 420px; height: 380px;
@@ -149,6 +156,7 @@
   .right-panel {
     display: flex; flex-direction: column; gap: 10px;
     padding-left: 20px; padding-top: 8px; align-self: start;
+    grid-column: 3; grid-row: 2;
   }
   .right-panel iframe { border-radius: 12px; width: 100%; }
 
@@ -224,8 +232,73 @@
   .modal-letter .sign-off { margin-top: 20px; display: block; font-style: italic; color: var(--purple-deep); }
 
   /* ── QUOTE ── */
-  .quote-row { grid-column: 1 / -1; text-align: center; padding-top: 16px; padding-bottom: 8px; }
+  .quote-row { grid-column: 1 / -1; grid-row: 3; text-align: center; padding-top: 16px; padding-bottom: 8px; }
   .quote-text { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.95rem; color: var(--muted); opacity: 0.85; }
+
+
+
+
+  /* ── EMOJI RAIN ── */
+  .rain-emoji {
+    position: fixed;
+    top: -60px;
+    pointer-events: none;
+    z-index: 200;
+    animation: rainFall linear forwards;
+    opacity: 0;
+  }
+  @keyframes rainFall {
+    0%   { transform: translateY(0px) rotate(0deg); opacity: 0; }
+    8%   { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(var(--rot)); opacity: 0; }
+  }
+
+  /* ── TICKET MODAL ── */
+  .boarding-pass {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(62,42,110,0.12);
+    font-family: "DM Sans", sans-serif;
+  }
+  .bp-top {
+    background: linear-gradient(135deg, var(--purple-deep), #a07ad8);
+    padding: 24px 28px 20px;
+    color: white;
+  }
+  .bp-airline {
+    font-size: 0.68rem; letter-spacing: 0.15em;
+    text-transform: uppercase; opacity: 0.8; margin-bottom: 16px;
+  }
+  .bp-route {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 18px;
+  }
+  .bp-city { text-align: center; }
+  .bp-code { font-family: "Instrument Serif", serif; font-size: 2.6rem; line-height: 1; }
+  .bp-city-name { font-size: 0.7rem; opacity: 0.75; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; }
+  .bp-arrow { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bp-arrow-line { width: 100%; height: 1px; background: rgba(255,255,255,0.4); position: relative; }
+  .bp-arrow-line::after { content: "✈"; position: absolute; right: -6px; top: -9px; font-size: 16px; }
+  .bp-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .bp-detail-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; margin-bottom: 3px; }
+  .bp-detail-value { font-size: 0.92rem; font-weight: 500; }
+  .bp-bottom {
+    padding: 20px 28px;
+    border-top: 2px dashed rgba(196,168,240,0.4);
+    background: #fafafa;
+  }
+  .bp-passenger-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .bp-passenger-name { font-family: "Instrument Serif", serif; font-size: 1.4rem; color: var(--purple-dark); }
+  .bp-barcode {
+    margin-top: 16px;
+    display: flex; gap: 2px; align-items: flex-end; height: 40px;
+  }
+  .bp-barcode span {
+    background: var(--purple-dark);
+    border-radius: 1px;
+    opacity: 0.7;
+  }
 
   /* COINS */
   .coin {
@@ -271,11 +344,11 @@
 <!-- AIRPLANE LAYER -->
 <div class="airplane-layer">
   <svg class="airplane-svg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <path id="flight-path" d="M 500 300 C 570 265 640 255 700 253 C 760 255 830 265 900 300" fill="none" stroke="rgba(124,92,191,0.18)" stroke-width="1.5" stroke-dasharray="6 7"/>
-    <text x="458" y="315" font-size="9" fill="rgba(124,92,191,0.35)" font-family="DM Sans, sans-serif" letter-spacing="0.08em">LONDON</text>
-    <circle cx="500" cy="300" r="3" fill="rgba(124,92,191,0.3)"/>
-    <text x="858" y="315" font-size="9" fill="rgba(124,92,191,0.35)" font-family="DM Sans, sans-serif" letter-spacing="0.08em">NEW DELHI</text>
-    <circle cx="900" cy="300" r="3" fill="rgba(124,92,191,0.3)"/>
+    <path id="flight-path" d="M 500 348 C 570 313 640 303 700 301 C 760 303 830 313 900 348" fill="none" stroke="rgba(124,92,191,0.18)" stroke-width="1.5" stroke-dasharray="6 7"/>
+    <text x="458" y="363" font-size="9" fill="rgba(124,92,191,0.35)" font-family="DM Sans, sans-serif" letter-spacing="0.08em">LONDON</text>
+    <circle cx="500" cy="348" r="3" fill="rgba(124,92,191,0.3)"/>
+    <text x="858" y="363" font-size="9" fill="rgba(124,92,191,0.35)" font-family="DM Sans, sans-serif" letter-spacing="0.08em">NEW DELHI</text>
+    <circle cx="900" cy="348" r="3" fill="rgba(124,92,191,0.3)"/>
     <path id="flight-trail" d="" fill="none" stroke="rgba(232,184,75,0.35)" stroke-width="1.5" stroke-linecap="round"/>
     <g id="airplane-icon" opacity="0.55">
       <path d="M0,-7 L4,4 L0,2 L-4,4 Z" fill="rgba(124,92,191,0.8)"/>
@@ -290,21 +363,11 @@
   <header>
     <div class="title-wrap">
       <h1>London <span class="arrow">→</span> New Delhi, see you in August 🌻🫒</h1>
-      <div class="countdown"><strong id="days-count">--</strong> days to go</div>
+      <div class="countdown">
+        <strong id="days-count">--</strong> days to go
+      </div>
     </div>
   </header>
-
-  <!-- LEFT: LOG -->
-  <div class="log-panel">
-    <div class="panel-card">
-      <div class="panel-label">Earnings log</div>
-      <div class="log-total" id="log-total-block">
-        <span>Total saved</span>
-        <span id="total-display">£0</span>
-      </div>
-      <div class="log-scroll" id="log-scroll" style="margin-top:8px;"></div>
-    </div>
-  </div>
 
   <!-- CENTER: PIGGY -->
   <div class="piggy-panel">
@@ -379,7 +442,52 @@
     <div class="amount-display"><span class="sym">£</span><span id="amount-text">0</span></div>
   </div>
 
-  <!-- RIGHT: SPOTIFY + LETTER -->
+  <!-- LEFT PANEL: BOARDING PASS -->
+  <div class="left-panel">
+    <div class="panel-card letter-card" id="ticket-btn">
+      <svg class="envelope-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- ticket body -->
+        <rect x="3" y="11" width="42" height="26" rx="4" fill="rgba(196,168,240,0.35)" stroke="rgba(124,92,191,0.5)" stroke-width="1.6"/>
+        <!-- tear notches -->
+        <circle cx="3" cy="24" r="4.5" fill="var(--bg)"/>
+        <circle cx="45" cy="24" r="4.5" fill="var(--bg)"/>
+        <!-- dashed divider -->
+        <line x1="18" y1="11" x2="18" y2="37" stroke="rgba(124,92,191,0.3)" stroke-width="1.2" stroke-dasharray="2.5 2"/>
+        <!-- LHR -->
+        <text x="5" y="22" font-size="8.5" font-weight="600" fill="rgba(62,42,110,0.85)" font-family="DM Sans, sans-serif">LHR</text>
+        <!-- arrow -->
+        <text x="5" y="33" font-size="5" fill="rgba(124,92,191,0.45)" font-family="DM Sans, sans-serif">London</text>
+        <!-- plane -->
+        <text x="19" y="26" font-size="9" fill="rgba(124,92,191,0.7)">✈</text>
+        <!-- DEL -->
+        <text x="29" y="22" font-size="8.5" font-weight="600" fill="rgba(62,42,110,0.85)" font-family="DM Sans, sans-serif">DEL</text>
+        <text x="29" y="33" font-size="5" fill="rgba(124,92,191,0.45)" font-family="DM Sans, sans-serif">Delhi</text>
+      </svg>
+      <div class="letter-card-label">boarding pass</div>
+    </div>
+    <!-- COUNTDOWN ICON CARD -->
+    <div class="panel-card letter-card" id="countdown-btn">
+      <svg class="envelope-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- clock face -->
+        <circle cx="24" cy="24" r="18" fill="rgba(196,168,240,0.35)" stroke="rgba(124,92,191,0.5)" stroke-width="1.8"/>
+        <!-- tick marks -->
+        <line x1="24" y1="8"  x2="24" y2="11" stroke="rgba(124,92,191,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="37" x2="24" y2="40" stroke="rgba(124,92,191,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="8"  y1="24" x2="11" y2="24" stroke="rgba(124,92,191,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="37" y1="24" x2="40" y2="24" stroke="rgba(124,92,191,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- hour hand -->
+        <line x1="24" y1="24" x2="24" y2="16" stroke="rgba(62,42,110,0.75)" stroke-width="2" stroke-linecap="round"/>
+        <!-- minute hand -->
+        <line x1="24" y1="24" x2="31" y2="24" stroke="rgba(62,42,110,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- centre dot -->
+        <circle cx="24" cy="24" r="2" fill="rgba(124,92,191,0.7)"/>
+      </svg>
+      <div class="letter-card-label">time until i see you</div>
+    </div>
+  </div>
+
+
+
   <div class="right-panel">
     <div class="panel-card letter-card" id="bucket-btn">
       <svg class="envelope-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -409,6 +517,76 @@
   <!-- QUOTE -->
   <div class="quote-row">
     <p class="quote-text">"You make my heart go Tunak Tunak Tun"</p>
+  </div>
+</div>
+
+<!-- COUNTDOWN MODAL -->
+<div class="modal-overlay" id="countdown-overlay">
+  <div class="modal" style="max-width:380px; text-align:center;">
+    <button class="modal-close" id="countdown-close" aria-label="Close">✕</button>
+    <div class="modal-envelope-top">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="18" fill="rgba(196,168,240,0.3)" stroke="rgba(124,92,191,0.4)" stroke-width="1.5"/>
+        <line x1="24" y1="8"  x2="24" y2="11" stroke="rgba(124,92,191,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="37" x2="24" y2="40" stroke="rgba(124,92,191,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="8"  y1="24" x2="11" y2="24" stroke="rgba(124,92,191,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="37" y1="24" x2="40" y2="24" stroke="rgba(124,92,191,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="24" x2="24" y2="16" stroke="rgba(62,42,110,0.75)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="24" y1="24" x2="31" y2="24" stroke="rgba(62,42,110,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="2" fill="rgba(124,92,191,0.7)"/>
+      </svg>
+    </div>
+    <div style="font-family:'DM Sans',sans-serif; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--muted); margin-bottom:16px;">time until i see you</div>
+    <div style="font-family:'Instrument Serif',serif; font-size:5rem; color:var(--purple-dark); line-height:1; letter-spacing:-0.03em;" id="cd-days-card">--</div>
+    <div style="font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; margin:6px 0 20px;">days</div>
+    <div style="font-family:'DM Sans',sans-serif; font-size:2rem; color:var(--purple-deep); font-weight:500; letter-spacing:0.06em;" id="cd-hms-card">--:--:--</div>
+    <div style="font-size:0.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; margin-top:6px;">hours · mins · secs</div>
+    <div style="margin-top:24px; font-family:'Instrument Serif',serif; font-style:italic; font-size:0.92rem; color:var(--muted);">August 21st, 12:55pm IST 🌻</div>
+  </div>
+</div>
+
+<!-- TICKET MODAL -->
+<div class="modal-overlay" id="ticket-overlay">
+  <div class="modal" style="max-width:440px;">
+    <button class="modal-close" id="ticket-close" aria-label="Close">✕</button>
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="bp-airline">Air India ✈ August 2026</div>
+        <div class="bp-route">
+          <div class="bp-city">
+            <div class="bp-code">LHR</div>
+            <div class="bp-city-name">London</div>
+          </div>
+          <div class="bp-arrow">
+            <div class="bp-arrow-line"></div>
+          </div>
+          <div class="bp-city">
+            <div class="bp-code">DEL</div>
+            <div class="bp-city-name">New Delhi</div>
+          </div>
+        </div>
+        <div class="bp-details">
+          <div>
+            <div class="bp-detail-label">Date</div>
+            <div class="bp-detail-value">21 AUG 2026</div>
+          </div>
+          <div>
+            <div class="bp-detail-label">Flight</div>
+            <div class="bp-detail-value">AI 2016</div>
+          </div>
+          <div>
+            <div class="bp-detail-label">Seat</div>
+            <div class="bp-detail-value">19K 🌻</div>
+          </div>
+        </div>
+      </div>
+      <div class="bp-bottom">
+        <div class="bp-passenger-label">Passenger</div>
+        <div class="bp-passenger-name">Raag Setia</div>
+        <div style="margin-top:4px; font-size:0.78rem; color:var(--muted);">travelling to you 🫒</div>
+        <div class="bp-barcode" id="bp-barcode"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -483,73 +661,129 @@
   // ── SUPABASE CONFIG ──
   const SUPABASE_URL = "https://whnaiyoixllvoiohxpyb.supabase.co";
   const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndobmFpeW9peGxsdm9pb2h4cHliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyOTk2MDAsImV4cCI6MjA5NDg3NTYwMH0.32WghCgb8w9_aXTt0CPSUwziN79THzNXprSgYjvzcc0";
-  const GOAL = 2000;
+  const GOAL = 1000;
 
-  // ── COUNTDOWN ──
-  const target = new Date("2026-08-22");
-  const days = Math.ceil((target - new Date()) / (1000*60*60*24));
-  document.getElementById("days-count").textContent = days > 0 ? days : 0;
+  // ── LIVE COUNTDOWN ──
+  // Target: Aug 21 2026 12:55 PM IST = Aug 21 2026 07:25:00 UTC
+  const targetDate = new Date(Date.UTC(2026, 7, 21, 7, 25, 0));
 
-  // ── FETCH ENTRIES FROM SUPABASE ──
-  async function loadEntries() {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/entries?select=*&order=date.asc`, {
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`
-      }
-    });
-    const entries = await res.json();
-
-    const total = entries.reduce((s, e) => s + Number(e.amount), 0);
-
-    // Render log (newest first)
-    const scrollEl = document.getElementById("log-scroll");
-    scrollEl.innerHTML = "";
-    entries.slice().reverse().forEach(e => {
-      const dateStr = new Date(e.date).toLocaleDateString("en-GB", { day:"numeric", month:"short" });
-      const div = document.createElement("div");
-      div.className = "log-entry";
-      div.innerHTML = `<span class="log-date">${dateStr}</span><span class="log-amount">£${Number(e.amount).toFixed(2)}</span>`;
-      scrollEl.appendChild(div);
-    });
-
-    document.getElementById("total-display").textContent = `£${total.toFixed(2)}`;
-    document.getElementById("amount-text").textContent = total.toFixed(2);
-
-    // Kick off animations once we have data
-    setTimeout(() => {
-      spawnCoins();
-      // Fill animation
-      const fillRect = document.getElementById("fill-rect");
-      const targetH = Math.min(total / GOAL, 1) * 185;
-      let startTime = null;
-      function easeOut(t) { return 1 - Math.pow(1-t, 3); }
-      function animateFill(ts) {
-        if (!startTime) startTime = ts;
-        const p = Math.min((ts - startTime) / 4500, 1);
-        const h = easeOut(p) * targetH;
-        fillRect.setAttribute("y", 255 - h);
-        fillRect.setAttribute("height", h);
-        if (p < 1) requestAnimationFrame(animateFill);
-      }
-      requestAnimationFrame(animateFill);
-
-      // Plane animation
-      const planeProgress = Math.min(total / GOAL, 1);
-      let planeStart = null;
-      function animatePlane(ts) {
-        if (!planeStart) planeStart = ts;
-        const p = Math.min((ts - planeStart) / 2200, 1);
-        positionPlane(easeOut(p) * planeProgress);
-        if (p < 1) requestAnimationFrame(animatePlane);
-      }
-      requestAnimationFrame(animatePlane);
-
-      setTimeout(() => { wiggleCoinSlot(); setInterval(wiggleCoinSlot, 20000); }, 2000);
-    }, 400);
+  function updateCountdown() {
+    const now  = new Date();
+    const diff = targetDate - now;
+    if (diff <= 0) {
+      document.getElementById("days-count").textContent = "0";
+      const cdDays = document.getElementById("cd-days-card");
+      const cdHms  = document.getElementById("cd-hms-card");
+      if (cdDays) cdDays.textContent = "0";
+      if (cdHms)  cdHms.textContent  = "it's time! 🌻";
+      return;
+    }
+    const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+    // title — just days
+    document.getElementById("days-count").textContent = days;
+    // left panel card — full timer
+    const cdDays = document.getElementById("cd-days-card");
+    const cdHms  = document.getElementById("cd-hms-card");
+    if (cdDays) cdDays.textContent = days;
+    if (cdHms)  cdHms.textContent  =
+      String(hours).padStart(2,"0") + ":" +
+      String(mins).padStart(2,"0")  + ":" +
+      String(secs).padStart(2,"0");
   }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
 
-  loadEntries();
+  // ── PIGGY FILL ──
+  const total = 446;
+  document.getElementById("amount-text").textContent = total;
+
+  function easeOut(t) { return 1 - Math.pow(1-t, 3); }
+
+  // Fill animation
+  const fillRect = document.getElementById("fill-rect");
+  const targetH  = Math.min(total / GOAL, 1) * 185;
+  let fillStart  = null;
+  function animateFill(ts) {
+    if (!fillStart) fillStart = ts;
+    const p = Math.min((ts - fillStart) / 4500, 1);
+    const h = easeOut(p) * targetH;
+    fillRect.setAttribute("y", 255 - h);
+    fillRect.setAttribute("height", h);
+    if (p < 1) requestAnimationFrame(animateFill);
+  }
+  requestAnimationFrame(animateFill);
+
+  // Plane animation — based on time elapsed, not money
+  // Total journey: 136 days. Progress = days elapsed / 136
+  const JOURNEY_DAYS = 136;
+  const msRemaining  = targetDate - new Date();
+  const daysRemaining = Math.max(msRemaining / (1000 * 60 * 60 * 24), 0);
+  const planeProgress = Math.min((JOURNEY_DAYS - daysRemaining) / JOURNEY_DAYS, 1);
+
+  let planeStart = null;
+  function animatePlane(ts) {
+    if (!planeStart) planeStart = ts;
+    const p = Math.min((ts - planeStart) / 2200, 1);
+    positionPlane(easeOut(p) * planeProgress);
+    if (p < 1) requestAnimationFrame(animatePlane);
+  }
+  requestAnimationFrame(animatePlane);
+
+  // Coin slot wiggle
+  setTimeout(() => { wiggleCoinSlot(); setInterval(wiggleCoinSlot, 20000); }, 2000);
+
+
+
+  // ── EMOJI RAIN ──
+  (function emojiRain() {
+    const emojis = ["🌻","💐","🪻","🌺","😘","💋","❤️"];
+    const total  = 55;
+    const duration = 5000; // spread spawns over 5s
+
+    for (let i = 0; i < total; i++) {
+      setTimeout(() => {
+        const el = document.createElement("div");
+        el.className = "rain-emoji";
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        const size  = 18 + Math.random() * 22;
+        const left  = 2 + Math.random() * 96; // % across screen
+        const rot   = (Math.random() - 0.5) * 120;
+        const fallDuration = 3500 + Math.random() * 2000;
+        el.style.cssText = `left:${left}vw; font-size:${size}px; --rot:${rot}deg;`;
+        el.style.animationDuration = fallDuration + "ms";
+        el.style.animationDelay = "0ms";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), fallDuration + 200);
+      }, Math.random() * duration);
+    }
+  })();
+
+  // Ticket modal
+  const ticketOverlay = document.getElementById("ticket-overlay");
+  document.getElementById("ticket-btn").addEventListener("click", () => {
+    // generate barcode bars
+    const bc = document.getElementById("bp-barcode");
+    if (!bc.children.length) {
+      for (let i = 0; i < 55; i++) {
+        const bar = document.createElement("span");
+        const h = 16 + Math.random() * 24;
+        bar.style.cssText = `width:${Math.random() > 0.6 ? 3 : 2}px;height:${h}px;`;
+        bc.appendChild(bar);
+      }
+    }
+    ticketOverlay.classList.add("open");
+  });
+  document.getElementById("ticket-close").addEventListener("click", () => ticketOverlay.classList.remove("open"));
+  ticketOverlay.addEventListener("click", e => { if (e.target === ticketOverlay) ticketOverlay.classList.remove("open"); });
+
+  // Countdown modal
+  const countdownOverlay = document.getElementById("countdown-overlay");
+  document.getElementById("countdown-btn").addEventListener("click", () => countdownOverlay.classList.add("open"));
+  document.getElementById("countdown-close").addEventListener("click", () => countdownOverlay.classList.remove("open"));
+  countdownOverlay.addEventListener("click", e => { if (e.target === countdownOverlay) countdownOverlay.classList.remove("open"); });
 
   // Letter modal
   const overlay = document.getElementById("modal-overlay");
@@ -563,40 +797,8 @@
   document.getElementById("bucket-close").addEventListener("click", () => bucketOverlay.classList.remove("open"));
   bucketOverlay.addEventListener("click", e => { if (e.target === bucketOverlay) bucketOverlay.classList.remove("open"); });
 
-  document.addEventListener("keydown", e => { if (e.key === "Escape") { overlay.classList.remove("open"); bucketOverlay.classList.remove("open"); } });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { overlay.classList.remove("open"); bucketOverlay.classList.remove("open"); ticketOverlay.classList.remove("open"); countdownOverlay.classList.remove("open"); } });
 
-  // Coins rising up into slot
-  function spawnCoins() {
-    const piggy   = document.getElementById("piggy-container");
-    const logEl   = document.getElementById("log-total-block");
-    const pigRect = piggy.getBoundingClientRect();
-    const logRect = logEl.getBoundingClientRect();
-
-    // coin slot on top of piggy head
-    const slotX = pigRect.left + pigRect.width * 0.445;
-    const slotY = pigRect.top  + pigRect.height * 0.31;
-
-    for (let i = 0; i < 10; i++) {
-      setTimeout(() => {
-        const coin = document.createElement("div");
-        coin.className = "coin";
-        // spawn from within the total saved block
-        const sx = logRect.left + 10 + Math.random() * (logRect.width - 20);
-        const sy = logRect.top  + 5 + Math.random() * (logRect.height - 10);
-        coin.style.left = sx + "px";
-        coin.style.top  = sy + "px";
-        document.getElementById("coins-container").appendChild(coin);
-        const dx = slotX - sx, dy = slotY - sy;
-        coin.animate([
-          { transform:"translate(0px,0px) scale(1)",                     opacity:1, offset:0    },
-          { transform:`translate(${dx*0.35}px,${dy*0.4}px) scale(1.1)`, opacity:1, offset:0.4  },
-          { transform:`translate(${dx*0.7}px,${dy*0.8}px) scale(0.85)`, opacity:1, offset:0.75 },
-          { transform:`translate(${dx}px,${dy}px) scale(0.2)`,          opacity:0, offset:1    },
-        ], { duration:1200 + Math.random()*400, easing:"ease-in-out", fill:"forwards" })
-        .onfinish = () => coin.remove();
-      }, i * 220);
-    }
-  }
 
   // Coin slot wiggle every 20s
   function wiggleCoinSlot() {
@@ -614,8 +816,8 @@
   }
 
   // Airplane
-  const seg1 = [{x:500,y:300},{x:570,y:265},{x:640,y:255},{x:700,y:253}];
-  const seg2 = [{x:700,y:253},{x:760,y:255},{x:830,y:265},{x:900,y:300}];
+  const seg1 = [{x:500,y:348},{x:570,y:313},{x:640,y:303},{x:700,y:301}];
+  const seg2 = [{x:700,y:301},{x:760,y:303},{x:830,y:313},{x:900,y:348}];
   function bez(p,t) { const m=1-t; return { x:m*m*m*p[0].x+3*m*m*t*p[1].x+3*m*t*t*p[2].x+t*t*t*p[3].x, y:m*m*m*p[0].y+3*m*m*t*p[1].y+3*m*t*t*p[2].y+t*t*t*p[3].y }; }
   function bezTan(p,t) { const m=1-t; return { x:3*m*m*(p[1].x-p[0].x)+6*m*t*(p[2].x-p[1].x)+3*t*t*(p[3].x-p[2].x), y:3*m*m*(p[1].y-p[0].y)+6*m*t*(p[2].y-p[1].y)+3*t*t*(p[3].y-p[2].y) }; }
   function pathPt(prog) { return prog<=0.5 ? bez(seg1,prog*2) : bez(seg2,(prog-0.5)*2); }
