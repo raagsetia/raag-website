@@ -696,28 +696,44 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // ── PIGGY FILL ──
-  const total = 446;
-  document.getElementById("amount-text").textContent = total;
-
+  // ── PIGGY FILL — live from Supabase ──
   function easeOut(t) { return 1 - Math.pow(1-t, 3); }
 
-  // Fill animation
-  const fillRect = document.getElementById("fill-rect");
-  const targetH  = Math.min(total / GOAL, 1) * 185;
-  let fillStart  = null;
-  function animateFill(ts) {
-    if (!fillStart) fillStart = ts;
-    const p = Math.min((ts - fillStart) / 4500, 1);
-    const h = easeOut(p) * targetH;
-    fillRect.setAttribute("y", 255 - h);
-    fillRect.setAttribute("height", h);
-    if (p < 1) requestAnimationFrame(animateFill);
+  async function loadTotal() {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/entries?select=amount`, {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        }
+      });
+      const entries = await res.json();
+      const total = entries.reduce((s, e) => s + Number(e.amount), 0);
+      document.getElementById("amount-text").textContent = total.toFixed(2);
+
+      // Fill animation
+      const fillRect = document.getElementById("fill-rect");
+      const targetH  = Math.min(total / GOAL, 1) * 185;
+      let fillStart  = null;
+      function animateFill(ts) {
+        if (!fillStart) fillStart = ts;
+        const p = Math.min((ts - fillStart) / 4500, 1);
+        const h = easeOut(p) * targetH;
+        fillRect.setAttribute("y", 255 - h);
+        fillRect.setAttribute("height", h);
+        if (p < 1) requestAnimationFrame(animateFill);
+      }
+      requestAnimationFrame(animateFill);
+
+    } catch(err) {
+      console.error("Failed to load total:", err);
+      document.getElementById("amount-text").textContent = "0";
+    }
   }
-  requestAnimationFrame(animateFill);
+
+  loadTotal();
 
   // Plane animation — based on time elapsed, not money
-  // Total journey: 136 days. Progress = days elapsed / 136
   const JOURNEY_DAYS = 136;
   const msRemaining  = targetDate - new Date();
   const daysRemaining = Math.max(msRemaining / (1000 * 60 * 60 * 24), 0);
