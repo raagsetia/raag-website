@@ -238,21 +238,6 @@
 
 
 
-  /* ── EMOJI RAIN ── */
-  .rain-emoji {
-    position: fixed;
-    top: -60px;
-    pointer-events: none;
-    z-index: 200;
-    animation: rainFall linear forwards;
-    opacity: 0;
-  }
-  @keyframes rainFall {
-    0%   { transform: translateY(0px) rotate(0deg); opacity: 0; }
-    8%   { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { transform: translateY(110vh) rotate(var(--rot)); opacity: 0; }
-  }
 
   /* ── TICKET MODAL ── */
   .boarding-pass {
@@ -568,7 +553,7 @@
         <div class="bp-details">
           <div>
             <div class="bp-detail-label">Date</div>
-            <div class="bp-detail-value">21 AUG 2026</div>
+            <div class="bp-detail-value">20 AUG 2026</div>
           </div>
           <div>
             <div class="bp-detail-label">Flight</div>
@@ -752,30 +737,6 @@
   setTimeout(() => { wiggleCoinSlot(); setInterval(wiggleCoinSlot, 20000); }, 2000);
 
 
-
-  // ── EMOJI RAIN ──
-  (function emojiRain() {
-    const emojis = ["🌻","💐","🪻","🌺","😘","💋","❤️"];
-    const total  = 55;
-    const duration = 5000; // spread spawns over 5s
-
-    for (let i = 0; i < total; i++) {
-      setTimeout(() => {
-        const el = document.createElement("div");
-        el.className = "rain-emoji";
-        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        const size  = 18 + Math.random() * 22;
-        const left  = 2 + Math.random() * 96; // % across screen
-        const rot   = (Math.random() - 0.5) * 120;
-        const fallDuration = 3500 + Math.random() * 2000;
-        el.style.cssText = `left:${left}vw; font-size:${size}px; --rot:${rot}deg;`;
-        el.style.animationDuration = fallDuration + "ms";
-        el.style.animationDelay = "0ms";
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), fallDuration + 200);
-      }, Math.random() * duration);
-    }
-  })();
 
   // Ticket modal
   const ticketOverlay = document.getElementById("ticket-overlay");
