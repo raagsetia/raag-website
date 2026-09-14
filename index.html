@@ -265,7 +265,7 @@
   .bp-arrow { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .bp-arrow-line { width: 100%; height: 1px; background: rgba(255,255,255,0.4); position: relative; }
   .bp-arrow-line::after { content: "✈"; position: absolute; right: -6px; top: -9px; font-size: 16px; }
-  .bp-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .bp-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px 8px; }
   .bp-detail-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; margin-bottom: 3px; }
   .bp-detail-value { font-size: 0.92rem; font-weight: 500; }
   .bp-bottom {
@@ -347,7 +347,7 @@
 <div class="page">
   <header>
     <div class="title-wrap">
-      <h1>London <span class="arrow">→</span> New Delhi, see you in August 🌻🫒</h1>
+      <h1>London <span class="arrow">→</span> New Delhi, see you in September 🌻🫒</h1>
       <div class="countdown">
         <strong id="days-count">--</strong> days to go
       </div>
@@ -526,7 +526,7 @@
     <div style="font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; margin:6px 0 20px;">days</div>
     <div style="font-family:'DM Sans',sans-serif; font-size:2rem; color:var(--purple-deep); font-weight:500; letter-spacing:0.06em;" id="cd-hms-card">--:--:--</div>
     <div style="font-size:0.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; margin-top:6px;">hours · mins · secs</div>
-    <div style="margin-top:24px; font-family:'Instrument Serif',serif; font-style:italic; font-size:0.92rem; color:var(--muted);">August 21st, 12:55pm IST 🌻</div>
+    <div style="margin-top:24px; font-family:'Instrument Serif',serif; font-style:italic; font-size:0.92rem; color:var(--muted);">September 22nd, 00:20am IST 🌻</div>
   </div>
 </div>
 
@@ -536,7 +536,7 @@
     <button class="modal-close" id="ticket-close" aria-label="Close">✕</button>
     <div class="boarding-pass">
       <div class="bp-top">
-        <div class="bp-airline">Air India ✈ August 2026</div>
+        <div class="bp-airline">Air India ✈ September 2026</div>
         <div class="bp-route">
           <div class="bp-city">
             <div class="bp-code">LHR</div>
@@ -553,15 +553,23 @@
         <div class="bp-details">
           <div>
             <div class="bp-detail-label">Date</div>
-            <div class="bp-detail-value">20 AUG 2026</div>
+            <div class="bp-detail-value">21 SEP 2026</div>
           </div>
           <div>
             <div class="bp-detail-label">Flight</div>
-            <div class="bp-detail-value">AI 2016</div>
+            <div class="bp-detail-value">AI 162</div>
           </div>
           <div>
             <div class="bp-detail-label">Seat</div>
             <div class="bp-detail-value">19K 🌻</div>
+          </div>
+          <div>
+            <div class="bp-detail-label">Departs</div>
+            <div class="bp-detail-value">09:45 BST</div>
+          </div>
+          <div>
+            <div class="bp-detail-label">Arrives</div>
+            <div class="bp-detail-value">00:20 IST</div>
           </div>
         </div>
       </div>
@@ -591,9 +599,9 @@
       </svg>
     </div>
     <div class="modal-letter">
-      <span class="salutation" style="font-style:normal;">things i want to do with you in august 🌻</span>
+      <span class="salutation" style="font-style:normal;">things i wanna do with you</span>
       <div style="margin-top:18px;display:flex;flex-direction:column;gap:12px;">
-        <label class="bucket-item"><input type="checkbox"><span>Rage Room</span></label>
+        <label class="bucket-item"><input type="checkbox" checked><span style="text-decoration:line-through;color:var(--muted);">Rage Room</span></label>
         <label class="bucket-item"><input type="checkbox"><span>Picnic</span></label>
         <label class="bucket-item"><input type="checkbox"><span>1v1 Basketball</span></label>
         <label class="bucket-item"><input type="checkbox"><span>Lodhi</span></label>
@@ -612,6 +620,15 @@
         <label class="bucket-item"><input type="checkbox"><span>Paint each nail a different colour on Raag</span></label>
         <label class="bucket-item"><input type="checkbox"><span>Order all Abhivyakti's favorites from Crusty Culture</span></label>
         <label class="bucket-item"><input type="checkbox"><span>Pizzas from Leos and Bomba</span></label>
+        <label class="bucket-item"><input type="checkbox"><span>Listen to Midnight in Raag's bedroom with lights off</span></label>
+        <label class="bucket-item"><input type="checkbox"><span>Omg naan khatai is actually a cute name</span></label>
+        <label class="bucket-item"><input type="checkbox"><span>Go to Omo Gurgaon</span></label>
+        <label class="bucket-item"><input type="checkbox" checked><span style="text-decoration:line-through;color:var(--muted);">Go to Plats</span></label>
+        <label class="bucket-item"><input type="checkbox"><span>Go to Jimmy's in Mumbai</span></label>
+        <label class="bucket-item"><input type="checkbox"><span>Have Japanese blueberry cheesecake from Theos</span></label>
+        <label class="bucket-item"><input type="checkbox"><span>Go to Uncles and do La La Land Karaoke</span></label>
+        <label class="bucket-item"><input type="checkbox"><span>Bowling</span></label>
+        <label class="bucket-item"><input type="checkbox"><span>Go to Claytherapy</span></label>
       </div>
     </div>
   </div>
@@ -629,13 +646,11 @@
       </svg>
     </div>
     <div class="modal-letter">
-      <span class="salutation">My dearest Abhivyakti,</span>
-      <span class="paragraph">What can I even say that I haven't already told you. You, ma'am, are one of the most beautiful, captivating, radiant, ethereal, magnetic, genuinely good people I have ever had the chance to meet. I make fun of Hinge a lot but I am truly grateful to that app as it allowed me to meet someone like you.</span>
-      <span class="paragraph">Meri jaan everyday I talk to you I get to know you better, and I get more and more determined that I want to be with you. And I do. I want to be with you. It is very rare to find someone who I can resonate with on pretty much every level (except for our disagreement on musicals, which I will blissfully ignore). You are someone who is worth giving the world to (and I would do it if you gave me the chance).</span>
-      <span class="paragraph">Ever since I saw you across the road in front of that Dominoes I have been so enamored by your beauty, charm, smarts, wit, just you my dear, you. I respect and understand where you are in your life and that in many ways this isn't the most convenient time for you to meet someone. But sometimes, gorgeous, the best things happen at the most unexpected times. At least, thats how I think about it. Just know that whenever you're ready, I'll be here. Main dat ke khada rahoonga cause your worth it meri jaan.</span>
-      <span class="paragraph">I cannot wait to meet you and spend time with you in August. I am quite literally counting down the days until I see you.</span>
-      <span class="paragraph">Thank you so much for being a part of my life,</span>
-      <span class="sign-off">Lots of kisses (to all cheeks) and cuddles,<br>Raag 🫒</span>
+      <span class="salutation">Dear Abhivyakti,</span>
+      <span class="paragraph">Alas the August trip we had looked forward to for so long has come to an end. I had such an unbelievably amazing and fun time getting to know you better, being with you, meeting your family and friends, and just existing in the same world as you.</span>
+      <span class="paragraph">Being away from you is not ideal, but I do have a much longer stay in Delhi with you to look forward to in just a week. I cannot wait to see you again jaan. We have so much to do together and so much more fun to have.</span>
+      <span class="paragraph">Thank you for being such a splendid ray of sunshine and the most amazing person I know,</span>
+      <span class="sign-off">Sending you so many kisses and hugs baby,<br>Raag 🫒</span>
     </div>
   </div>
 </div>
@@ -650,7 +665,7 @@
 
   // ── LIVE COUNTDOWN ──
   // Target: Aug 21 2026 12:55 PM IST = Aug 21 2026 07:25:00 UTC
-  const targetDate = new Date(Date.UTC(2026, 7, 21, 7, 25, 0));
+  const targetDate = new Date(Date.UTC(2026, 8, 21, 18, 50, 0));
 
   function updateCountdown() {
     const now  = new Date();
@@ -719,7 +734,7 @@
   loadTotal();
 
   // Plane animation — based on time elapsed, not money
-  const JOURNEY_DAYS = 136;
+  const JOURNEY_DAYS = 8;
   const msRemaining  = targetDate - new Date();
   const daysRemaining = Math.max(msRemaining / (1000 * 60 * 60 * 24), 0);
   const planeProgress = Math.min((JOURNEY_DAYS - daysRemaining) / JOURNEY_DAYS, 1);
